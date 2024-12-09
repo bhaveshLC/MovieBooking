@@ -1,0 +1,102 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary">
+  <div class="container d-flex justify-content-around">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="">Ticketry</a>
+        </li>
+      </ul>
+    </div>
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-mdb-ripple-init
+      data-mdb-modal-init
+      data-mdb-target="#addShowModal"
+    >
+      Create Show
+    </button>
+    <div
+      class="d-flex align-items-center px-2 gap-2 me-2"
+      data-mdb-ripple-init
+      data-mdb-modal-init
+      data-mdb-target="#exampleModal"
+    >
+      <i class="fa-solid fa-location-dot"></i>
+      <span>{{ currentCity }}</span>
+    </div>
+  </div>
+</nav>
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Select City</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-mdb-ripple-init
+          data-mdb-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group gap-2 mt-4">
+          <input
+            type="search"
+            class="form-control btn-outline-primary rounded mb-3"
+            placeholder="Search for cities"
+            aria-label="Search"
+            aria-describedby="search-addon"
+            [(ngModel)]="searchTerm"
+            (input)="onSearchChange()"
+          />
+          <ul class="list-group position-absolute">
+            @if(filteredCities.length > 0){
+            <li
+              *ngFor="let city of filteredCities"
+              class="list-group-item"
+              (click)="selectCity(city)"
+            >
+              {{ city?.name }}
+            </li>
+            } @else if (filteredCities.length==0 && searchTerm.length !==0 &&
+            isAddBtnVisible()) {
+            <li class="list-group-item">
+              <button
+                type="button"
+                class="btn btn-outline-primary w-100"
+                data-mdb-ripple-init
+                (click)="addNewCity(searchTerm)"
+              >
+                Add City
+              </button>
+            </li>
+            }
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-mdb-ripple-init
+          data-mdb-dismiss="modal"
+        >
+          Close
+        </button>
+        <!-- <button type="button" class="btn btn-primary" data-mdb-ripple-init>
+          Save changes
+        </button> -->
+      </div>
+    </div>
+  </div>
+</div>
+<app-add-show />
